@@ -3,6 +3,8 @@
 > **Projeto:** Garden Shop — Dashboard de Estoque e Reposição · **Autora:** Ana Santos · **Atualizado em:** 2026-10-27
 >
 > **Repositório:** https://github.com/by-anasantos/garden-shop-dashboard
+>
+> **Dashboard online:** https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 
 ## 1. Objetivo
 
@@ -126,6 +128,9 @@ A autora opera o Git e o GitHub **manualmente, pelo GitHub Desktop** (o Git de l
 | 2 | `feat/regras-calculo` | #2 | `metrics.py`, `filters.py`, testes das regras |
 | 3 | `feat/dashboard` | #3 | Tema, `formatting.py`, `charts.py`, `app.py`, testes da interface |
 | 4 | `docs/fechamento` | #4 | Documentos alinhados ao código, comandos verificados, `README.md`, `CLAUDE.md` |
+| 5 | `docs/publicacao` | #5 | Link do dashboard publicado |
+
+**Publicação:** o Streamlit Community Cloud republica o app automaticamente a cada merge no `main`. Por isso, nada entra no `main` sem passar pelos testes.
 
 ### 6.2. Revisão antes de cada PR
 
