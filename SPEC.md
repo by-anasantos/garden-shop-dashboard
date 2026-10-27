@@ -8,7 +8,7 @@
 
 - **Projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora e responsável pela aprovação:** Ana Santos
-- **Versão da especificação:** 1.4
+- **Versão da especificação:** 1.5
 - **Status:** Approved
 - **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.1)
 - **Data:** 2026-10-26
@@ -254,6 +254,7 @@ flowchart TD
   - Ordenação: status (Ruptura → Reposição urgente → Alerta limítrofe → Saudável → Descontinuado), depois ABC (A → B → C → Sem vendas), depois déficit decrescente, depois nome.
   - A opção "Somente recomendações de compra" mostra apenas as linhas com `purchase_suggestion > 0`.
   - O botão "Exportar CSV" baixa exatamente as linhas e colunas exibidas, em UTF-8 com BOM, no arquivo `lista_compras_garden_shop.csv`.
+  - A opção "Somente recomendações de compra" vem **ligada** ao abrir a página. Na tela, algumas colunas têm rótulos curtos (Estoque, Reposição, Sugestão de compra, Venda/dia, Cobertura, ABC) para caber na largura; o CSV exportado usa os nomes completos. A célula de status é colorida com a cor do status e mantém o texto.
 - **Critérios de aceitação (base completa, só recomendações):** 5 linhas, nesta ordem:
 
 | # | Produto | Fornecedor | E-mail | Déficit | ABC | Status |
@@ -336,7 +337,7 @@ Uma linha por `product_id`. A quantidade de linhas é sempre igual à de `produc
 
 - **Entrada:** CSVs com cabeçalho e separador vírgula, em UTF-8.
 - **Saída:** a tela e o CSV exportado (UTF-8 com BOM, separador vírgula e ponto decimal).
-- **Erros:** `DataValidationError(file, column, detail)`, exibido com `st.error`; o restante da página não é renderizado.
+- **Erros:** `DataValidationError(file, column, detail)`, exibido em uma caixa de mensagem com a paleta do projeto (não com `st.error`, que é vermelho — REQ-012); o restante da página não é renderizado.
 
 ## 8. Interfaces e integrações
 
@@ -576,7 +577,8 @@ Cada fase corresponde a uma branch e a um PR, abertos manualmente pela autora (A
 | TEST-021 | Valores de referência da base | Integração | 4.763,00 · 10.389,25 · 54,2% · 1 · 5 · 60; contagem de status | REQ-004 |
 | TEST-022 | Regra do quadrante | Unitário | Exemplo X/Y/Z: só X é prioridade | REQ-008 |
 | TEST-023 | Paleta sem vermelho | Unitário | Nenhuma cor com matiz entre 345° e 15° e saturação ≥ 40% | REQ-012 |
-| TEST-030 | Roteiro manual da interface | Manual | Cards, 3 gráficos, tabela, exportação, estados vazios, rodapé e ausência de vermelho | REQ-008 a REQ-012 |
+| TEST-024 | Formatação | Unitário | US$ 4.763,00 · 54,2% · "—" · 425,6 dias · "Sem giro" | RNF-001 |
+| TEST-030 | Roteiro da interface | Manual + automático (`tests/test_app.py`, com o `AppTest` do Streamlit) | Automático: página abre sem exceção com os valores de referência; RootWorks → "Nenhum produto atende…"; período de 2023 → "Não há vendas efetivas…". Manual: 3 gráficos legíveis, exportação, rodapé e ausência de vermelho | REQ-008 a REQ-012 |
 
 ### 13.3. Cobertura de validação
 
@@ -637,3 +639,4 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | 1.2 | 2026-10-26 | Fase 1: loader devolve só os campos da 7.1; rótulo de dimensão ausente aplicado na visão por produto; ADR-005 atualizado (`Garden Shop/` fora do Git). Nenhum resultado esperado mudou. | Approved |
 | 1.3 | 2026-10-26 | SPEC-OPEN-003 resolvida: dependências e testes da Fase 1 verificados no Windows com Python 3.14.3. | Approved |
 | 1.4 | 2026-10-26 | Fase 2: funções auxiliares de `metrics.py` listadas na seção 8.1. Todos os valores de referência da seção 13 reproduzidos pelos testes (52 passed). Nenhuma regra mudou. | Approved |
+| 1.5 | 2026-10-26 | Fase 3: mensagens de erro e de estado vazio em caixa própria (sem `st.error`, que é vermelho); TEST-024 (formatação) e parte automática do TEST-030 adicionados; rótulos curtos na tabela da tela e filtro de recomendações ligado por padrão. Nenhuma regra de cálculo mudou. | Approved |
