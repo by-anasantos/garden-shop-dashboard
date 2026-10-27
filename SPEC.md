@@ -8,7 +8,7 @@
 
 - **Projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora e responsável pela aprovação:** Ana Santos
-- **Versão da especificação:** 1.2
+- **Versão da especificação:** 1.4
 - **Status:** Approved
 - **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.1)
 - **Data:** 2026-10-26
@@ -351,6 +351,8 @@ compute_kpis(view: pd.DataFrame) -> dict[str, float | int | None]
 purchase_table(view: pd.DataFrame, only_recommended: bool = False) -> pd.DataFrame
 ```
 
+Funções auxiliares de `metrics.py`, também cobertas por testes: `effective_sales` (REQ-002), `stock_status` e `add_stock_rules` (REQ-003, REQ-009), `add_coverage` (REQ-005), `abc_classes` (REQ-006) e `period_days` (ADR-009). O NumPy é usado em `metrics.py`; ele já é instalado como dependência do Pandas e não entra no `requirements.txt`.
+
 ### 8.2. Integrações externas
 
 Nenhuma.
@@ -624,7 +626,7 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | --- | --- | --- | --- | --- |
 | SPEC-OPEN-001 | Confirmar o ADR-003 (ABC pela participação anterior; o Tulip Bulbs passa a ser A) — PRD DP-001 | Classe de 1 produto na base completa | Ana Santos | Resolvida em 2026-10-26: confirmada a classe A |
 | SPEC-OPEN-002 | Confirmar as medianas no quadrante (ADR-008) — PRD DP-002 | Destaque da dispersão | Ana Santos | Resolvida em 2026-10-26: confirmadas as medianas |
-| SPEC-OPEN-003 | Verificar a compatibilidade do Streamlit com o Python 3.14 local | Ambiente | Ana Santos (máquina local, Fase 1) | Aberta — testes da Fase 1 passaram em Python 3.13 no ambiente do agente; falta instalar e rodar no Windows |
+| SPEC-OPEN-003 | Verificar a compatibilidade do Streamlit com o Python 3.14 local | Ambiente | Ana Santos (máquina local, Fase 1) | Resolvida em 2026-10-26: `pip install -r requirements.txt` concluído e `pytest` com 14 passed no Windows, Python 3.14.3 |
 
 ## 19. Histórico de versões
 
@@ -633,3 +635,5 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | 1.0 | 2026-10-26 | Criação a partir do PRD 1.0 e da exploração dos CSVs | In Review |
 | 1.1 | 2026-10-26 | Autora confirmou ADR-003 (classe A para o produto que cruza o limite) e ADR-008 (medianas no quadrante); publicação no Streamlit Cloud registrada como posterior à entrega (PRD DP-003). Nenhuma regra ou resultado esperado mudou. | Approved |
 | 1.2 | 2026-10-26 | Fase 1: loader devolve só os campos da 7.1; rótulo de dimensão ausente aplicado na visão por produto; ADR-005 atualizado (`Garden Shop/` fora do Git). Nenhum resultado esperado mudou. | Approved |
+| 1.3 | 2026-10-26 | SPEC-OPEN-003 resolvida: dependências e testes da Fase 1 verificados no Windows com Python 3.14.3. | Approved |
+| 1.4 | 2026-10-26 | Fase 2: funções auxiliares de `metrics.py` listadas na seção 8.1. Todos os valores de referência da seção 13 reproduzidos pelos testes (52 passed). Nenhuma regra mudou. | Approved |
