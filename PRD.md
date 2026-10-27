@@ -6,9 +6,10 @@
 
 - **Nome do projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora:** Ana Santos
-- **Versão do documento:** 1.1
-- **Status:** Aprovado
-- **Data:** 2026-10-26
+- **Versão do documento:** 1.2
+- **Status:** Implementado e verificado
+- **Data:** 2026-10-27 (criação em 2026-10-26)
+- **Repositório:** https://github.com/by-anasantos/garden-shop-dashboard
 - **Origem:** continuação da proposta da Aula 1 (`lista_01_ana_santos.docx`), implementada na Aula 2 (`lista_02.docx`).
 
 ## 2. Visão geral
@@ -138,10 +139,10 @@ Não há metas numéricas definidas pela gestão. O sucesso será medido pela ca
 | RF-009 | Exibir barras horizontais empilhadas com o número de produtos por categoria e status. | Must | A soma das barras é igual ao número de produtos filtrados. |
 | RF-010 | Exibir treemap do valor do estoque a custo por categoria e produto. | Must | A soma das áreas é igual ao card Valor do estoque (custo). |
 | RF-011 | Exibir dispersão de vendas efetivas × dias de cobertura, com quadrante de prioridade. | Must | Os produtos com vendas acima da mediana e cobertura abaixo da mediana ficam destacados como prioridade. |
-| RF-012 | Exibir a tabela de compras ordenada por prioridade, com fornecedor, e-mail e déficit mínimo, exportável em CSV. | Must | Os 5 produtos ativos abaixo do ponto aparecem com recomendação; o Bird Feeder aparece sem recomendação; fornecedores sem e-mail aparecem sinalizados. |
+| RF-012 | Exibir a tabela de compras ordenada por prioridade, com fornecedor, e-mail e déficit mínimo, exportável em CSV. | Must | Com a opção "Somente recomendações de compra" (ligada ao abrir), aparecem os 5 produtos ativos abaixo do ponto; desligada, o Bird Feeder aparece com sugestão 0; fornecedores sem e-mail aparecem sinalizados. |
 | RF-013 | Tratar situações sem dados. | Must | Filtros sem resultado ou período sem pedidos mostram uma mensagem explicativa, cards zerados ou "—" e nenhum erro. |
 | RF-014 | Exibir as limitações da base no rodapé. | Should | O rodapé cita a ausência de lead time, de histórico de movimentações e de MOQ, além da janela curta de vendas. |
-| RF-015 | Filtrar a tabela ao clicar em uma categoria ou em um ponto dos gráficos. | Could | O clique restringe a tabela aos produtos selecionados. Opcional nesta entrega; os filtros do topo já atendem à necessidade. |
+| RF-015 | Filtrar a tabela ao clicar em uma categoria ou em um ponto dos gráficos. | Could | O clique restringe a tabela aos produtos selecionados. **Não implementado nesta entrega**; os filtros do topo já atendem à necessidade. |
 
 ## 7. Requisitos não funcionais
 
@@ -192,7 +193,7 @@ Abrir o dashboard → carregar e validar os CSVs → calcular a visão por produ
 
 ### 10.3. Tratamento de erros
 
-- **Arquivo ou coluna ausente:** mensagem com o nome do arquivo ou da coluna; o dashboard não é exibido.
+- **Arquivo ou coluna ausente:** mensagem com o nome do arquivo ou da coluna, em uma caixa marrom (sem vermelho); o dashboard não é exibido.
 - **Valor fora do domínio** (status desconhecido, estoque negativo, ID duplicado): mensagem de validação indicando o arquivo, o campo e o valor encontrado.
 - **Item de pedido sem pedido ou produto correspondente:** é excluído das vendas e um aviso informa quantos itens foram ignorados.
 
@@ -227,7 +228,7 @@ Abrir o dashboard → carregar e validar os CSVs → calcular a visão por produ
 | Volume de vendas pequeno (86 unidades), que gera coberturas muito longas | Médio | Usar a cobertura para comparar produtos entre si, não como previsão exata. |
 | Fornecedores sem e-mail (RootWorks e Ironwood) | Médio | Sinalizar na tabela de compras. |
 | Divergência entre o dicionário e os CSVs | Baixo | Aceitar os dois formatos e registrar na SPEC. |
-| Compatibilidade do Streamlit com o Python 3.14 instalado | Baixo | Verificar na Fase 1; se houver problema, usar Python 3.12. |
+| Compatibilidade do Streamlit com o Python 3.14 instalado | Baixo | Resolvido: dependências instaladas e testes passando no Python 3.14.3. |
 
 ## 13. Entregáveis
 
@@ -240,10 +241,10 @@ Abrir o dashboard → carregar e validar os CSVs → calcular a visão por produ
 
 O produto estará pronto quando:
 
-- Os requisitos Must estiverem implementados.
-- Os valores de referência da SPEC tiverem sido reproduzidos pelos testes.
-- O dashboard tiver sido executado localmente e conferido visualmente.
-- Os documentos refletirem o comportamento implementado.
+- ✅ Os requisitos Must estiverem implementados (RF-001 a RF-013; também o RF-014, Should).
+- ✅ Os valores de referência da SPEC tiverem sido reproduzidos pelos testes (81 testes passando).
+- ✅ O dashboard tiver sido executado localmente e conferido visualmente.
+- ✅ Os documentos refletirem o comportamento implementado.
 
 ## 15. Relação com os documentos técnicos
 
@@ -265,3 +266,4 @@ O produto estará pronto quando:
 | --- | --- | --- |
 | 1.0 | 2026-10-26 | Criação a partir da proposta da Aula 1 e do brainstorm da Aula 2. |
 | 1.1 | 2026-10-26 | Decisões DP-001 (ABC: classe A para o produto que cruza o limite), DP-002 (medianas no quadrante) e DP-003 (publicação após a entrega). Status: Aprovado. |
+| 1.2 | 2026-10-27 | Fechamento: requisitos Must e o RF-014 implementados e verificados; RF-015 não implementado; critério do RF-012 detalhado (opção de recomendações ligada por padrão); mensagens de erro sem vermelho; risco do Python 3.14 resolvido. |
