@@ -2,6 +2,8 @@
 
 **Autora:** Ana Santos
 
+🌿 **Dashboard online:** https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
+
 Dashboard em Streamlit que mostra, em uma única página, a situação do estoque da Garden Shop (loja virtual de jardinagem): o que está em risco, quanto vale o estoque, o que vende mais e o que precisa ser comprado de qual fornecedor.
 
 - **Cards:** valor do estoque a custo, valor potencial de venda, margem bruta, produtos em ruptura, abaixo do ponto de reposição e déficit de peças.
@@ -9,7 +11,7 @@ Dashboard em Streamlit que mostra, em uma única página, a situação do estoqu
 - **Tabela de compras:** ordenada por prioridade, com fornecedor, e-mail e sugestão mínima de compra, exportável em CSV.
 - **Filtros:** período de vendas, categoria, fornecedor, status e curva ABC.
 
-## Como executar (Windows, PowerShell)
+## Como executar localmente (Windows, PowerShell)
 
 ```powershell
 python -m venv .venv

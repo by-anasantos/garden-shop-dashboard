@@ -8,9 +8,9 @@
 
 - **Projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora e responsável pela aprovação:** Ana Santos
-- **Versão da especificação:** 1.6
+- **Versão da especificação:** 1.7
 - **Status:** Verified
-- **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.2)
+- **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.3)
 - **Data:** 2026-10-27 (criação em 2026-10-26)
 
 ### Status permitidos
@@ -63,7 +63,7 @@ As regras de cálculo ficam em funções Python puras, independentes da interfac
 - Gravação em qualquer arquivo de dados.
 - Previsão de demanda, lead time, MOQ, autenticação e envio de e-mails.
 - Filtro da tabela por clique nos gráficos (RF-015, Could).
-- Publicação no Streamlit Community Cloud (prevista para depois da entrega — PRD, DP-003).
+- Configurações específicas de hospedagem: a publicação no Streamlit Community Cloud usa o mesmo código e o `requirements.txt`, sem arquivos extras (PRD, DP-003). Link: https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 
 ## 5. Arquitetura proposta
 
@@ -424,7 +424,7 @@ Não há credenciais no projeto.
 - **Segurança e privacidade:** sem credenciais; `customers.csv` não é lido.
 - **Confiabilidade:** validação na carga e mensagens claras; nenhum dado é gravado.
 - **Acessibilidade:** os status são identificados por texto, além da cor; contraste do texto navy sobre off-white.
-- **Portabilidade:** Windows local; publicável no Streamlit Community Cloud (publicação prevista para depois da entrega).
+- **Portabilidade:** Windows local (Python 3.14.3) e publicado no Streamlit Community Cloud a partir do `main`: https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 - **Manutenibilidade:** regras em `metrics.py`, constantes em `config.py`, testes em `tests/`.
 
 ## 11. Decisões técnicas
@@ -498,6 +498,8 @@ Cada fase corresponde a uma branch e a um PR, abertos manualmente pela autora no
 | 2 | `feat/regras-calculo` | #2 | 52 passed |
 | 3 | `feat/dashboard` | #3 | 81 passed; dashboard conferido localmente |
 | 4 | `docs/fechamento` | #4 | Documentos alinhados ao código |
+| 5 | `docs/publicacao` | #5 | Link do dashboard publicado no Streamlit Community Cloud |
+| 5b | `docs/publicacao-correcao` | #6 | Correção: na resolução de conflitos do PR #5, README, PRD e SPEC ficaram na versão do `main`; este PR aplica as versões corretas |
 
 ### Fase 0 — Especificação (`docs/especificacao`)
 
@@ -653,3 +655,4 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | 1.4 | 2026-10-26 | Fase 2: funções auxiliares de `metrics.py` listadas na seção 8.1. Todos os valores de referência da seção 13 reproduzidos pelos testes (52 passed). Nenhuma regra mudou. | Approved |
 | 1.5 | 2026-10-27 | Fase 3: mensagens de erro e de estado vazio em caixa própria (sem `st.error`, que é vermelho); TEST-024 (formatação) e parte automática do TEST-030 adicionados; rótulos curtos na tabela da tela e filtro de recomendações ligado por padrão. Nenhuma regra de cálculo mudou. | Approved |
 | 1.6 | 2026-10-27 | Fase 4: implementação conferida (81 testes e execução local); status `Verified`; plano de fases com os PRs; estrutura de diretórios e recuperação dos dados atualizadas. | Verified |
+| 1.7 | 2026-10-27 | Dashboard publicado no Streamlit Community Cloud (PRD DP-003); link registrado nas seções 4.2 e 10. Nenhuma regra mudou. | Verified |
