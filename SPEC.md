@@ -8,10 +8,10 @@
 
 - **Projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora e responsável pela aprovação:** Ana Santos
-- **Versão da especificação:** 1.5
-- **Status:** Approved
-- **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.1)
-- **Data:** 2026-10-26
+- **Versão da especificação:** 1.7
+- **Status:** Verified
+- **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.3)
+- **Data:** 2026-10-27 (criação em 2026-10-26)
 
 ### Status permitidos
 
@@ -63,7 +63,7 @@ As regras de cálculo ficam em funções Python puras, independentes da interfac
 - Gravação em qualquer arquivo de dados.
 - Previsão de demanda, lead time, MOQ, autenticação e envio de e-mails.
 - Filtro da tabela por clique nos gráficos (RF-015, Could).
-- Publicação no Streamlit Community Cloud (prevista para depois da entrega — PRD, DP-003).
+- Configurações específicas de hospedagem: a publicação no Streamlit Community Cloud usa o mesmo código e o `requirements.txt`, sem arquivos extras (PRD, DP-003). Link: https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 
 ## 5. Arquitetura proposta
 
@@ -424,7 +424,7 @@ Não há credenciais no projeto.
 - **Segurança e privacidade:** sem credenciais; `customers.csv` não é lido.
 - **Confiabilidade:** validação na carga e mensagens claras; nenhum dado é gravado.
 - **Acessibilidade:** os status são identificados por texto, além da cor; contraste do texto navy sobre off-white.
-- **Portabilidade:** Windows local; publicável no Streamlit Community Cloud (publicação prevista para depois da entrega).
+- **Portabilidade:** Windows local (Python 3.14.3) e publicado no Streamlit Community Cloud a partir do `main`: https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 - **Manutenibilidade:** regras em `metrics.py`, constantes em `config.py`, testes em `tests/`.
 
 ## 11. Decisões técnicas
@@ -461,12 +461,16 @@ GARDEN-SHOP-DASHBOARD/
 │   └── formatting.py
 ├── tests/
 │   ├── conftest.py           # fixture do recorte (seção 13)
-│   ├── test_loader.py
-│   ├── test_metrics.py
-│   ├── test_filters.py
-│   └── test_palette.py
-├── PRD.md · SPEC.md · AGENTS.md · CLAUDE.md
-└── templates/                # modelos originais dos documentos
+│   ├── test_loader.py        # TEST-001 a TEST-005
+│   ├── test_metrics.py       # TEST-010 a TEST-018, TEST-020, TEST-021
+│   ├── test_filters.py       # REQ-007 e TEST-019
+│   ├── test_charts.py        # TEST-022 e figuras
+│   ├── test_palette.py       # TEST-023
+│   ├── test_formatting.py    # TEST-024
+│   └── test_app.py           # TEST-030 (parte automática)
+└── README.md · PRD.md · SPEC.md · AGENTS.md · CLAUDE.md
+
+Fora do repositório (`.gitignore`): `.venv/`, `Garden Shop/` (originais, com `customers.csv`), o dicionário de dados e o material da aula. Os templates dos documentos ficaram só na pasta de trabalho da autora.
 ```
 
 ### 11.3. Paleta
@@ -485,7 +489,16 @@ GARDEN-SHOP-DASHBOARD/
 
 ## 12. Plano de implementação
 
-Cada fase corresponde a uma branch e a um PR, abertos manualmente pela autora (AGENTS.md, seção 6).
+Cada fase corresponde a uma branch e a um PR, abertos manualmente pela autora no GitHub Desktop (AGENTS.md, seção 6).
+
+| Fase | Branch | PR | Resultado |
+| --- | --- | --- | --- |
+| 0 | — | — | Documentos enviados direto ao `main` pelo site, antes da instalação do Git (desvio do plano registrado aqui) |
+| 1 | `feat/carga-dados` | #1 | 14 passed |
+| 2 | `feat/regras-calculo` | #2 | 52 passed |
+| 3 | `feat/dashboard` | #3 | 81 passed; dashboard conferido localmente |
+| 4 | `docs/fechamento` | #4 | Documentos alinhados ao código |
+| 5 | `docs/publicacao` | #5 | Link do dashboard publicado no Streamlit Community Cloud |
 
 ### Fase 0 — Especificação (`docs/especificacao`)
 
@@ -496,25 +509,25 @@ Cada fase corresponde a uma branch e a um PR, abertos manualmente pela autora (A
 
 - **Dependências:** Fase 0.
 - **Tarefas:** `requirements.txt`, `.gitignore`, estrutura de pastas, cópia dos CSVs para `data/raw/`, `config.py`; testes TEST-001 a TEST-005 **escritos antes** de `loader.py`; depois, `loader.py`.
-- **Verificação:** `pytest tests/test_loader.py` passando; checagem da compatibilidade do Streamlit com o Python instalado.
+- **Verificação:** `pytest tests/test_loader.py` passando; checagem da compatibilidade do Streamlit com o Python instalado. ✅ 14 passed no Windows, Python 3.14.3.
 
 ### Fase 2 — Regras de cálculo (`feat/regras-calculo`)
 
 - **Dependências:** Fase 1.
 - **Tarefas:** testes TEST-010 a TEST-021 **escritos antes**; depois, `metrics.py` e `filters.py`.
-- **Verificação:** `pytest` passando; valores de referência da seção 13 reproduzidos.
+- **Verificação:** `pytest` passando; valores de referência da seção 13 reproduzidos. ✅ 52 passed.
 
 ### Fase 3 — Interface (`feat/dashboard`)
 
 - **Dependências:** Fase 2.
-- **Tarefas:** `.streamlit/config.toml`, `formatting.py`, `charts.py`, `app.py`; TEST-022 e TEST-023.
-- **Verificação:** `pytest` passando; execução local e roteiro manual TEST-030.
+- **Tarefas:** `.streamlit/config.toml`, `formatting.py`, `charts.py`, `app.py`; TEST-022 a TEST-024 e parte automática do TEST-030.
+- **Verificação:** `pytest` passando; execução local e roteiro manual TEST-030. ✅ 81 passed; dashboard executado localmente pela autora.
 
 ### Fase 4 — Fechamento (`docs/fechamento`)
 
 - **Dependências:** Fase 3.
-- **Tarefas:** alinhar os documentos ao código; atualizar o status desta SPEC; marcar os comandos verificados no AGENTS.md; gerar o print.
-- **Verificação:** checklist da seção 16.
+- **Tarefas:** alinhar os documentos ao código; atualizar o status desta SPEC; marcar os comandos verificados no AGENTS.md; incluir `CLAUDE.md` e um `README.md` com as instruções de execução; gerar o print.
+- **Verificação:** checklist da seção 16. ✅
 
 ## 13. Estratégia de testes
 
@@ -597,17 +610,17 @@ Cada fase corresponde a uma branch e a um PR, abertos manualmente pela autora (A
 
 ## 15. Observabilidade e operação
 
-- **Diagnóstico:** `DataValidationError` com arquivo, coluna e valor; os avisos de carga aparecem em um `st.warning` recolhível.
-- **Execução:** `streamlit run app.py` (comandos em AGENTS.md).
-- **Recuperação:** corrigir ou restaurar os CSVs em `data/raw/` a partir de `Garden Shop/` e recarregar a página.
+- **Diagnóstico:** `DataValidationError` com arquivo, coluna e valor; os avisos de carga aparecem em um bloco recolhível (`st.expander`) acima dos filtros.
+- **Execução:** `python -m streamlit run app.py` (comandos em AGENTS.md e README.md).
+- **Recuperação:** restaurar os CSVs em `data/raw/` pelo Git (descartar a alteração no GitHub Desktop) ou a partir dos originais da Aula 1, e recarregar a página.
 
 ## 16. Critérios de conclusão técnica
 
-- Requisitos REQ-001 a REQ-012 implementados.
-- TEST-001 a TEST-023 passando e roteiro TEST-030 executado.
-- Valores da seção 13 reproduzidos.
-- Status desta SPEC atualizado para `Implemented` e, após a conferência, `Verified`.
-- Comandos do AGENTS.md marcados como verificados.
+- ✅ Requisitos REQ-001 a REQ-012 implementados.
+- ✅ TEST-001 a TEST-024 passando (81 testes no Windows, Python 3.14.3) e roteiro TEST-030 executado.
+- ✅ Valores da seção 13 reproduzidos.
+- ✅ Status desta SPEC atualizado para `Verified`.
+- ✅ Comandos do AGENTS.md marcados como verificados.
 
 ## 17. Gestão de mudanças
 
@@ -639,4 +652,6 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | 1.2 | 2026-10-26 | Fase 1: loader devolve só os campos da 7.1; rótulo de dimensão ausente aplicado na visão por produto; ADR-005 atualizado (`Garden Shop/` fora do Git). Nenhum resultado esperado mudou. | Approved |
 | 1.3 | 2026-10-26 | SPEC-OPEN-003 resolvida: dependências e testes da Fase 1 verificados no Windows com Python 3.14.3. | Approved |
 | 1.4 | 2026-10-26 | Fase 2: funções auxiliares de `metrics.py` listadas na seção 8.1. Todos os valores de referência da seção 13 reproduzidos pelos testes (52 passed). Nenhuma regra mudou. | Approved |
-| 1.5 | 2026-10-26 | Fase 3: mensagens de erro e de estado vazio em caixa própria (sem `st.error`, que é vermelho); TEST-024 (formatação) e parte automática do TEST-030 adicionados; rótulos curtos na tabela da tela e filtro de recomendações ligado por padrão. Nenhuma regra de cálculo mudou. | Approved |
+| 1.5 | 2026-10-27 | Fase 3: mensagens de erro e de estado vazio em caixa própria (sem `st.error`, que é vermelho); TEST-024 (formatação) e parte automática do TEST-030 adicionados; rótulos curtos na tabela da tela e filtro de recomendações ligado por padrão. Nenhuma regra de cálculo mudou. | Approved |
+| 1.6 | 2026-10-27 | Fase 4: implementação conferida (81 testes e execução local); status `Verified`; plano de fases com os PRs; estrutura de diretórios e recuperação dos dados atualizadas. | Verified |
+| 1.7 | 2026-10-27 | Dashboard publicado no Streamlit Community Cloud (PRD DP-003); link registrado nas seções 4.2 e 10. Nenhuma regra mudou. | Verified |

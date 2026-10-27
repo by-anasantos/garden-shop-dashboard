@@ -1,6 +1,10 @@
 # AGENTS.md — Instruções para agentes de IA
 
-> **Projeto:** Garden Shop — Dashboard de Estoque e Reposição · **Autora:** Ana Santos · **Atualizado em:** 2026-10-26
+> **Projeto:** Garden Shop — Dashboard de Estoque e Reposição · **Autora:** Ana Santos · **Atualizado em:** 2026-10-27
+>
+> **Repositório:** https://github.com/by-anasantos/garden-shop-dashboard
+>
+> **Dashboard online:** https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 
 ## 1. Objetivo
 
@@ -41,6 +45,8 @@ A autora escolheu o **SDD**. A SPEC orienta o planejamento, a implementação e 
 
 > Escrever os testes das regras antes do código é uma exigência do exercício (`lista_02.docx`). Dentro do SDD, esses testes são a forma executável dos critérios de aceitação da SPEC. Não se trata de TDD aplicado a todo o projeto.
 
+**Como foi aplicado nesta entrega:** em cada fase, os testes foram escritos a partir da SPEC, executados contra um esqueleto vazio (todos falhando com `NotImplementedError` ou por módulo inexistente) e só depois o código foi implementado. Descobertas durante a implementação viraram versões da SPEC (1.2 a 1.6), por exemplo: o `st.error` do Streamlit é vermelho, então as mensagens usam uma caixa própria.
+
 ### 3.2. Quando revisar a SPEC
 
 - Uma descoberta nos dados muda uma regra ou um resultado esperado.
@@ -52,11 +58,11 @@ Nesses casos: altere a SPEC, incremente a versão no histórico, ajuste os teste
 ## 4. Estrutura do repositório
 
 ```
-GARDEN-SHOP-DASHBOARD/
+garden-shop-dashboard/
 ├── app.py                    # Interface Streamlit (layout apenas, sem fórmulas)
 ├── requirements.txt
 ├── .streamlit/config.toml    # Tema (paleta sem vermelho)
-├── data/raw/                 # Cópias fiéis dos CSVs — SOMENTE LEITURA
+├── data/raw/                 # Cópias fiéis de 5 CSVs — SOMENTE LEITURA (sem customers.csv)
 ├── src/garden_shop/
 │   ├── config.py             # Caminhos, constantes de negócio, paleta
 │   ├── loader.py             # Leitura e validação dos CSVs
@@ -64,11 +70,11 @@ GARDEN-SHOP-DASHBOARD/
 │   ├── filters.py            # Filtros de dimensão
 │   ├── charts.py             # Figuras Plotly
 │   └── formatting.py         # Formatação de US$, %, dias
-├── tests/                    # Pytest (fixture do recorte em conftest.py)
-├── PRD.md · SPEC.md · AGENTS.md · CLAUDE.md
-├── templates/                # Modelos originais dos documentos — não editar
-└── Garden Shop/              # CSVs originais da Aula 1 — não editar
+├── tests/                    # Pytest (recorte de referência em conftest.py)
+└── README.md · PRD.md · SPEC.md · AGENTS.md · CLAUDE.md
 ```
+
+**Fora do repositório** (no `.gitignore` ou só na pasta de trabalho da autora): `.venv/`, a pasta `Garden Shop/` com os CSVs originais da Aula 1 (inclui `customers.csv`), o dicionário de dados, os templates dos documentos e o material da aula.
 
 Responsabilidades: SPEC, seção 5.2. Regra principal: **fórmulas ficam somente em `metrics.py`** e constantes de negócio, somente em `config.py`.
 
@@ -76,9 +82,9 @@ Responsabilidades: SPEC, seção 5.2. Regra principal: **fórmulas ficam somente
 
 ### 5.1. Padrões do projeto
 
-- **Linguagem:** Python (3.14 instalado na máquina da autora; usar 3.12 se o Streamlit não for compatível — SPEC-OPEN-003).
+- **Linguagem:** Python 3.14 (verificado com 3.14.3 no Windows).
 - **Dependências:** `pip` + `requirements.txt` em um ambiente virtual `.venv` na raiz.
-- **Bibliotecas:** `streamlit`, `pandas`, `plotly`, `pytest`. Não adicione outras sem justificar à autora.
+- **Bibliotecas:** `streamlit`, `pandas`, `plotly`, `pytest`. O NumPy é usado em `metrics.py` e chega como dependência do Pandas. Não adicione outras sem justificar à autora.
 - **Código:** nomes em inglês nas funções e variáveis; textos da interface em português; type hints nas funções públicas; docstrings curtas.
 - **Lint/formatação:** nenhuma ferramenta adotada nesta entrega.
 - **Imports:** `app.py` e os testes importam de `src/garden_shop` (o caminho é configurado em `tests/conftest.py` e no início do `app.py`).
@@ -87,55 +93,66 @@ Responsabilidades: SPEC, seção 5.2. Regra principal: **fórmulas ficam somente
 
 | Finalidade | Comando | Status |
 | --- | --- | --- |
-| Criar o ambiente virtual | `python -m venv .venv` | ⏳ Não verificado |
-| Ativar o ambiente | `.\.venv\Scripts\Activate.ps1` | ⏳ Não verificado |
-| Instalar as dependências | `python -m pip install -r requirements.txt` | ⏳ Não verificado |
-| Rodar todos os testes | `python -m pytest` | ⏳ Não verificado |
-| Rodar os testes de um módulo | `python -m pytest tests/test_metrics.py -v` | ⏳ Não verificado |
-| Executar o dashboard | `python -m streamlit run app.py` | ⏳ Não verificado |
-| Usar outra pasta de dados | `$env:GARDEN_SHOP_DATA_DIR="C:\caminho\dados"; python -m streamlit run app.py` | ⏳ Não verificado |
+| Criar o ambiente virtual | `python -m venv .venv` | ✅ Verificado em 2026-10-27 |
+| Ativar o ambiente (a cada PowerShell novo) | `.\.venv\Scripts\Activate.ps1` | ✅ Verificado em 2026-10-27 |
+| Instalar as dependências | `python -m pip install -r requirements.txt` | ✅ Verificado em 2026-10-27 (Python 3.14.3) |
+| Rodar todos os testes | `python -m pytest` | ✅ Verificado em 2026-10-27 — 81 passed |
+| Rodar os testes de um módulo | `python -m pytest tests/test_metrics.py -v` | ✅ Verificado em 2026-10-27 |
+| Executar o dashboard | `python -m streamlit run app.py` | ✅ Verificado em 2026-10-27 — abre em `http://localhost:8501` |
+| Usar outra pasta de dados | `$env:GARDEN_SHOP_DATA_DIR="C:\caminho\dados"; python -m streamlit run app.py` | ⏳ Não verificado na máquina da autora (coberto por `config.data_dir()`) |
+
+**Problemas conhecidos:**
+
+- `No module named pytest` ou `streamlit`: o ambiente não foi ativado (a linha do PowerShell precisa começar com `(.venv)`).
+- "A execução de scripts foi desabilitada" ao ativar: rode `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` uma vez.
+- Na primeira execução, o Streamlit pode pedir um e-mail no terminal: aperte Enter para pular.
 
 **Regra:** só marque ✅ Verificado depois de executar o comando e conferir a saída real, registrando a data. Nunca afirme que um comando ou teste passou sem tê-lo executado.
 
 ## 6. Git e GitHub: operação manual pela autora
 
-A autora opera o Git e o GitHub **manualmente**. O agente:
+A autora opera o Git e o GitHub **manualmente, pelo GitHub Desktop** (o Git de linha de comando não está instalado na máquina). O agente:
 
-- **não executa** `git init`, `add`, `commit`, `push`, `checkout -b`, `merge`, nem cria PRs ou repositórios;
+- **não executa** operações de Git nem cria PRs ou repositórios;
 - **pode sugerir**, ao final de cada parte, o nome da branch, a lista de arquivos, a mensagem de commit e o texto do PR;
 - **não reescreve o histórico** nem descarta alterações locais da autora.
 
-### 6.1. Plano de branches (SPEC, seção 12)
+**Fluxo no GitHub Desktop:** `main` → **Fetch/Pull origin** → **New branch** → copiar os arquivos → conferir a lista em *Changes* → **Commit** → **Publish branch** → **Create Pull Request** → revisar o diff e **Merge** no site → voltar ao `main` e dar **Pull**. Nunca fazer commit direto no `main`.
 
-| Fase | Branch | Conteúdo do PR |
-| --- | --- | --- |
-| 0 | `docs/especificacao` | PRD, SPEC, AGENTS, CLAUDE, templates |
-| 1 | `feat/carga-dados` | Estrutura, `requirements.txt`, `.gitignore`, `data/raw/`, `config.py`, `loader.py`, testes de carga |
-| 2 | `feat/regras-calculo` | `metrics.py`, `filters.py`, testes das regras |
-| 3 | `feat/dashboard` | Tema, `formatting.py`, `charts.py`, `app.py` |
-| 4 | `docs/fechamento` | Documentos alinhados ao código, comandos verificados, print |
+### 6.1. Branches e PRs
+
+| Fase | Branch | PR | Conteúdo |
+| --- | --- | --- | --- |
+| 0 | — | — | PRD, SPEC e AGENTS enviados direto ao `main` pelo site, antes de o GitHub Desktop ser instalado |
+| 1 | `feat/carga-dados` | #1 | Estrutura, `requirements.txt`, `.gitignore`, `data/raw/`, `config.py`, `loader.py`, testes de carga |
+| 2 | `feat/regras-calculo` | #2 | `metrics.py`, `filters.py`, testes das regras |
+| 3 | `feat/dashboard` | #3 | Tema, `formatting.py`, `charts.py`, `app.py`, testes da interface |
+| 4 | `docs/fechamento` | #4 | Documentos alinhados ao código, comandos verificados, `README.md`, `CLAUDE.md` |
+| 5 | `docs/publicacao` | #5 | Link do dashboard publicado |
+
+**Publicação:** o Streamlit Community Cloud republica o app automaticamente a cada merge no `main`. Por isso, nada entra no `main` sem passar pelos testes.
 
 ### 6.2. Revisão antes de cada PR
 
 - [ ] Os requisitos da SPEC afetados estão listados na descrição do PR.
 - [ ] O `pytest` foi executado e a saída foi conferida.
-- [ ] Nenhum arquivo em `data/raw/`, `Garden Shop/` ou `templates/` foi alterado.
+- [ ] Nenhum arquivo em `data/raw/` foi alterado.
 - [ ] A SPEC e o PRD refletem o que foi implementado.
-- [ ] Não há vermelho em cores novas.
+- [ ] Não há vermelho em cores novas (o `tests/test_palette.py` confere a paleta).
 
-### 6.3. Sugestão de `.gitignore`
+### 6.3. `.gitignore`
 
-`.venv/`, `__pycache__/`, `.pytest_cache/`, `*.pyc`, `~$*` (temporários do Office) e `lista_0*.docx` (enunciados e entrega da Aula 1, que não fazem parte do código).
+`.venv/`, `__pycache__/`, `.pytest_cache/`, `*.pyc`, `~$*` (temporários do Office), `lista_0*.docx`, `*.pptx`, `*.pdf`, `Garden Shop/` e `garden_shop_dicionario_dados.xlsx`.
 
 ## 7. Limites e cuidados com os dados
 
-- **Somente leitura:** o código nunca grava em `data/raw/` nem em `Garden Shop/`. Os CSVs de `data/raw/` são cópias fiéis dos originais; para restaurá-los, copie novamente de `Garden Shop/`.
-- **Somente o necessário:** use apenas as tabelas e os campos listados na SPEC (seção 7.1). **Não leia `customers.csv`** (dados pessoais sem uso nos indicadores).
-- **Nada de dados inventados:** não crie linhas, não corrija valores e não preencha ausências nos CSVs. Dados de teste ficam só nas fixtures de `tests/`.
+- **Somente leitura:** o código nunca grava em `data/raw/`. Os CSVs são cópias fiéis dos originais da Aula 1; para restaurá-los, descarte a alteração no GitHub Desktop.
+- **Somente o necessário:** use apenas as tabelas e os campos listados na SPEC (seção 7.1). **Não leia `customers.csv`** (dados pessoais sem uso nos indicadores); ele não está no repositório.
+- **Nada de dados inventados:** não crie linhas, não corrija valores e não preencha ausências nos CSVs. Dados de teste ficam só nas fixtures de `tests/`, sempre em pastas temporárias.
 - **Duplicação:** agregue as vendas por produto antes de juntar com produtos (SPEC, RN-006). Toda função que junta tabelas deve preservar uma linha por produto.
 - **Período × estoque:** o filtro de período nunca altera saldos ou valores de estoque (SPEC, RN-002).
 - **Divergências encontradas** nos dados ou no dicionário: registre na SPEC (seção 7.1) e avise a autora; não "corrija" o dado.
-- **Cores:** use apenas a paleta da SPEC (seção 11.3). **Vermelho é proibido.**
+- **Cores:** use apenas a paleta da SPEC (seção 11.3). **Vermelho é proibido**, inclusive o `st.error` do Streamlit.
 - **Segredos:** o projeto não usa credenciais; não adicione nenhuma.
 
 ## 8. Regras de desenvolvimento
