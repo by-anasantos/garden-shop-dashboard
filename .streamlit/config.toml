@@ -1,0 +1,11 @@
+# Tema do dashboard — paleta sem vermelho (SPEC 11.3, REQ-012)
+[theme]
+base = "light"
+primaryColor = "#003d48"
+backgroundColor = "#F5F0E6"
+secondaryBackgroundColor = "#EAE3D4"
+textColor = "#0a1628"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
