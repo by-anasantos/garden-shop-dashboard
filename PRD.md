@@ -6,11 +6,10 @@
 
 - **Nome do projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora:** Ana Santos
-- **Versão do documento:** 1.3
+- **Versão do documento:** 1.2
 - **Status:** Implementado e verificado
 - **Data:** 2026-10-27 (criação em 2026-10-26)
 - **Repositório:** https://github.com/by-anasantos/garden-shop-dashboard
-- **Dashboard online:** https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
 - **Origem:** continuação da proposta da Aula 1 (`lista_01_ana_santos.docx`), implementada na Aula 2 (`lista_02.docx`).
 
 ## 2. Visão geral
@@ -109,7 +108,7 @@ Não há metas numéricas definidas pela gestão. O sucesso será medido pela ca
 - Escrita na base, emissão automática de pedidos de compra ou envio de e-mails.
 - Análises de clientes: `customers.csv` não é necessário aos indicadores e contém dados pessoais, por isso não é carregado.
 - Autenticação e múltiplos perfis de acesso.
-- Hospedagem obrigatória na internet: a execução local atende à entrega. Mesmo assim, o dashboard foi publicado no Streamlit Community Cloud para o portfólio (DP-003): https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/
+- Hospedagem obrigatória na internet: a execução local atende à entrega. A publicação no Streamlit Community Cloud, para o portfólio, será feita depois da entrega (DP-003).
 
 ### 5.3. Premissas
 
@@ -259,7 +258,7 @@ O produto estará pronto quando:
 | --- | --- | --- | --- | --- |
 | DP-001 | Regra de fronteira da curva ABC: em qual classe fica o produto que cruza 80%? | Classe A, pela participação acumulada **anterior** ao produto. O Tulip Bulbs (78,8% → 82,4%) fica em A. | Ana Santos | Decidida em 2026-10-26 |
 | DP-002 | Limites do quadrante de prioridade na dispersão. | Mediana das vendas e mediana da cobertura dos produtos exibidos. | Ana Santos | Decidida em 2026-10-26 |
-| DP-003 | Publicar o dashboard no Streamlit Community Cloud para o portfólio? | Sim. Inicialmente previsto para depois da entrega; antecipado e publicado em 2026-10-27, a partir do `main`: https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/ | Ana Santos | Concluída em 2026-10-27 |
+| DP-003 | Publicar o dashboard no Streamlit Community Cloud para o portfólio? | Sim, depois da entrega. Não faz parte do escopo desta entrega. | Ana Santos | Decidida em 2026-10-26 |
 
 ## 17. Histórico de alterações
 
@@ -268,4 +267,3 @@ O produto estará pronto quando:
 | 1.0 | 2026-10-26 | Criação a partir da proposta da Aula 1 e do brainstorm da Aula 2. |
 | 1.1 | 2026-10-26 | Decisões DP-001 (ABC: classe A para o produto que cruza o limite), DP-002 (medianas no quadrante) e DP-003 (publicação após a entrega). Status: Aprovado. |
 | 1.2 | 2026-10-27 | Fechamento: requisitos Must e o RF-014 implementados e verificados; RF-015 não implementado; critério do RF-012 detalhado (opção de recomendações ligada por padrão); mensagens de erro sem vermelho; risco do Python 3.14 resolvido. |
-| 1.3 | 2026-10-27 | DP-003 concluída: dashboard publicado no Streamlit Community Cloud (https://garden-shop-dashboard-cnddk2u89vfajvgsmsadkz.streamlit.app/). |
