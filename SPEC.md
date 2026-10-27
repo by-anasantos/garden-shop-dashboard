@@ -8,7 +8,7 @@
 
 - **Projeto:** Garden Shop — Dashboard de Estoque e Reposição
 - **Autora e responsável pela aprovação:** Ana Santos
-- **Versão da especificação:** 1.1
+- **Versão da especificação:** 1.2
 - **Status:** Approved
 - **PRD relacionado:** [`PRD.md`](PRD.md) (versão 1.1)
 - **Data:** 2026-10-26
@@ -122,7 +122,8 @@ flowchart TD
 - **Erros e exceções:**
   - Arquivo ausente, coluna obrigatória ausente, ID duplicado, valor fora do domínio ou data inválida geram `DataValidationError`, com arquivo, coluna e valor.
   - Itens de pedido órfãos (sem pedido ou sem produto) são descartados e registrados em `warnings`.
-  - Produto com `category_id` ou `supplier_id` inexistente recebe o rótulo "Não cadastrada" ou "Não cadastrado" e é registrado em `warnings`.
+  - Produto com `category_id` ou `supplier_id` inexistente é mantido e registrado em `warnings`; o rótulo "Não cadastrada" ou "Não cadastrado" é aplicado em `build_product_view` (REQ-002 em diante), não no loader.
+  - O loader devolve **somente os campos da seção 7.1**; os campos não utilizados não entram nos DataFrames.
 - **Critérios de aceitação:**
   - Dado os CSVs originais, quando a carga é executada, então resultam 24 produtos, 8 categorias, 6 fornecedores, 24 pedidos, 48 itens e nenhum aviso.
   - Dado um `orders.csv` sem a coluna `status`, quando a carga é executada, então ocorre `DataValidationError` citando `orders.csv` e `status`.
@@ -433,7 +434,7 @@ Não há credenciais no projeto.
 | ADR-002 | Agregar as vendas antes de juntar com produtos | Evita duplicar saldos e valores (RN-006) | Junção direta seguida de deduplicação |
 | ADR-003 | ABC pela participação acumulada **anterior** ao produto — **confirmada em 2026-10-26 (DP-001)** | Evita que o produto mais vendido caia em B ou C quando concentra a receita | "Acumulado ≤ 80%" (regra da Aula 1, revista) |
 | ADR-004 | pending e processing contam como venda | Demanda real que compromete o estoque | Contar apenas shipped |
-| ADR-005 | Cópias dos CSVs em `data/raw/`, somente leitura | Pasta sem espaços no nome e originais preservados em `Garden Shop/` | Ler direto de `Garden Shop/` |
+| ADR-005 | Cópias dos CSVs em `data/raw/`, somente leitura; `Garden Shop/` e o dicionário ficam só na máquina da autora (no `.gitignore`) | Pasta sem espaços no nome; originais preservados; `customers.csv` (dados pessoais) não vai para o repositório | Ler direto de `Garden Shop/`; versionar a pasta original |
 | ADR-006 | Não carregar `customers.csv` | Sem uso nos indicadores e com dados pessoais | Carregar sem exibir |
 | ADR-007 | Validação rígida da estrutura, tolerância a itens órfãos | Erro estrutural invalida tudo; um item órfão afeta só a sua linha | Ignorar todos os erros |
 | ADR-008 | Medianas como limites do quadrante — **confirmada em 2026-10-26 (DP-002)** | Não há meta definida pela gestão; a mediana se adapta aos filtros | Limites fixos (ex.: 30 dias) |
@@ -623,7 +624,7 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | --- | --- | --- | --- | --- |
 | SPEC-OPEN-001 | Confirmar o ADR-003 (ABC pela participação anterior; o Tulip Bulbs passa a ser A) — PRD DP-001 | Classe de 1 produto na base completa | Ana Santos | Resolvida em 2026-10-26: confirmada a classe A |
 | SPEC-OPEN-002 | Confirmar as medianas no quadrante (ADR-008) — PRD DP-002 | Destaque da dispersão | Ana Santos | Resolvida em 2026-10-26: confirmadas as medianas |
-| SPEC-OPEN-003 | Verificar a compatibilidade do Streamlit com o Python 3.14 local | Ambiente | Agente (Fase 1) | Aberta |
+| SPEC-OPEN-003 | Verificar a compatibilidade do Streamlit com o Python 3.14 local | Ambiente | Ana Santos (máquina local, Fase 1) | Aberta — testes da Fase 1 passaram em Python 3.13 no ambiente do agente; falta instalar e rodar no Windows |
 
 ## 19. Histórico de versões
 
@@ -631,3 +632,4 @@ Mudanças de escopo também atualizam o `PRD.md`.
 | --- | --- | --- | --- |
 | 1.0 | 2026-10-26 | Criação a partir do PRD 1.0 e da exploração dos CSVs | In Review |
 | 1.1 | 2026-10-26 | Autora confirmou ADR-003 (classe A para o produto que cruza o limite) e ADR-008 (medianas no quadrante); publicação no Streamlit Cloud registrada como posterior à entrega (PRD DP-003). Nenhuma regra ou resultado esperado mudou. | Approved |
+| 1.2 | 2026-10-26 | Fase 1: loader devolve só os campos da 7.1; rótulo de dimensão ausente aplicado na visão por produto; ADR-005 atualizado (`Garden Shop/` fora do Git). Nenhum resultado esperado mudou. | Approved |

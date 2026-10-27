@@ -1,0 +1,18 @@
+# Ambiente e caches do Python
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Temporários do Office
+~$*
+
+# Material da aula e entregas (não fazem parte do código)
+lista_0*.docx
+*.pptx
+*.pdf
+
+# Originais da Aula 1: ficam só na máquina da autora.
+# O repositório usa as cópias de data/raw/ (sem customers.csv).
+Garden Shop/
+garden_shop_dicionario_dados.xlsx
